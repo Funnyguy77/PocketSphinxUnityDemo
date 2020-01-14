@@ -1,0 +1,23 @@
+# PocketSphinxUnityDemo
+A sample Unity project showing how to use PocketSphinx.
+
+## Why was this created? 
+When I stumbled across [CMUSphinx](https://cmusphinx.github.io/) and [PocketSphinx](https://github.com/cmusphinx/pocketsphinx), I was amazed at the capabilities these programs offered. However, there's very little documentation for anyone looking to implement this system within Unity. The only publicly available Unity Demo was created by [nshmyrev](https://github.com/cmusphinx/pocketsphinx-unity-demo), and hasn't been updated in quite some time. This project is an improved adaptation of his demo project. 
+
+## General notes:
+- You should be able to achieve basic speech recognition within Unity using this project. (Simple commands like "open folder" will work) However if you would like to recognize longer sentences, please look into [adapting the default acoustic model](https://cmusphinx.github.io/wiki/tutorialadapt/) or [building your own language model](https://cmusphinx.github.io/wiki/tutoriallm/).
+- Keyphrases are cAsE SenSitiVe! When entering keyphrases and using the default 'en-us' model enter them as lowercase.
+- This library / project does support VR platforms! (Tested with Oculus Quest) 
+- The great thing with PocketSphinx is that you can have an offline / on-board speech recognition solution. (My particular use case was an offline solution for the Oculus Quest)
+
+## This project supports and includes libraries for the following platforms:
+- Windows x86 & x64
+- OSX
+- Android
+- iOS
+
+## Installation
+Simply download or fork this project and open it in your version of Unity. (Tested in Unity 2018.4.13f1 LTS)
+
+## Thanks!
+Thanks or checking out my PocketSphinx Unity Demo, if you have any questions open a GitHub issue. :)
