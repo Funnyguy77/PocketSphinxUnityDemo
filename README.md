@@ -20,4 +20,4 @@ When I stumbled across [CMUSphinx](https://cmusphinx.github.io/) and [PocketSphi
 Simply download or fork this project and open it in your version of Unity. (Tested in Unity 2018.4.13f1 LTS)
 
 ## Thanks!
-Thanks or checking out my PocketSphinx Unity Demo, if you have any questions open a GitHub issue. :)
+Thanks for checking out my PocketSphinx Unity Demo, if you have any questions open a GitHub issue. :)
