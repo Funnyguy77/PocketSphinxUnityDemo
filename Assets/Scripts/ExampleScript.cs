@@ -21,7 +21,7 @@ public class ExampleScript : MonoBehaviour
     public Text micTxt; // Text game-object that displays the current microphone in use.
     private Decoder d; // Decoder that's actually interpreting our speech.
     private string LANG = "en-us"; // The language model you wish to use. (Name of your .tar file within StreamingAssets)
-    private string KEYPHRASE = "test"; // The actual keyphrase our decoder is looking to recognize. Note that this is case-sensitive.
+    private string KEYPHRASE = "test one"; // The actual keyphrase our decoder is looking to recognize. Note that this is case-sensitive.
 
     private bool keyphraseDetected = false;
 
@@ -131,6 +131,13 @@ public class ExampleScript : MonoBehaviour
         c.SetString("-dict", dictPath);
         // Tell our decoder what phrase to look for.
         c.SetString("-keyphrase", KEYPHRASE);
+
+        /* How accurate our decoder will be. For shorter keyphrases you can use smaller thresholds like 1e-1, 
+         * for longer keyphrases the threshold must be bigger, up to 1e-50. 
+         * If your keyphrase is very long – larger than 10 syllables – it is recommended to split it 
+         * and spot for parts separately. 
+         */
+        c.SetFloat("-kws_threshold", 1e-50);
 
         // These two lines enable and save raw data to a log for debugging. Feel free to comment these lines if you have no need for logs.
         c.SetString("-logfn", logPath);
