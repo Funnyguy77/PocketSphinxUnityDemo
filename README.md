@@ -21,6 +21,7 @@ Simply download or fork this project and open it in your version of Unity. (Test
 
 ## Other great resources:
 [CMUSphinx](https://cmusphinx.github.io/)
+
 [Sophie's Blog - Python w/ PocketSphinx](http://blog.justsophie.com/python-speech-to-text-with-pocketsphinx/)
 
 ## Thanks!
