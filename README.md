@@ -17,7 +17,7 @@ When I stumbled across [CMUSphinx](https://cmusphinx.github.io/) and [PocketSphi
 - iOS
 
 ## Installation
-Simply download or fork this project and open it in your version of Unity. (Tested in Unity 2018.4.13f1 LTS)
+Simply download or clone this project and open it in your version of Unity. (Tested in Unity 2018.4.13f1 LTS)
 
 ## Other great resources:
 - [CMUSphinx](https://cmusphinx.github.io/)
