@@ -19,6 +19,10 @@ When I stumbled across [CMUSphinx](https://cmusphinx.github.io/) and [PocketSphi
 ## Installation
 Simply download or clone this project and open it in your version of Unity. (Tested in Unity 2018.4.13f1 LTS)
 
+## TODO:
+- Add an example showing how to use a custom language model.
+- (?) Add video example showing in-game use.
+
 ## Other great resources:
 - [CMUSphinx](https://cmusphinx.github.io/)
 - [Sophie's Blog - Python w/ PocketSphinx](http://blog.justsophie.com/python-speech-to-text-with-pocketsphinx/)
