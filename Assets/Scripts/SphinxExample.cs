@@ -4,7 +4,6 @@ using System.IO;
 using TarCs;
 using UnityEngine;
 using UnityEngine.Networking;
-using UnityEngine.UI;
 
 /* Thanks for checking out my example script for PocketSphinx in Unity! :)
  * Hopefully this resource helps others to understand using this tool within Unity. 
@@ -20,24 +19,25 @@ using UnityEngine.UI;
 public class SphinxExample : MonoBehaviour
 {
     private Decoder d; // Decoder that's actually interpreting our speech.
-    private MicrophoneHandler mic; // Handler that manages the recording of our microphone.
-    private bool keyphraseDetected = false; // Simple bool for checking if we have recognized a keyphrase.
+    public MicrophoneHandler mic; // Handler that manages the recording of our microphone.
     [Header("Configuration:")]
     public string lang = "en-us"; // The language model you wish to use. (Name of your .tar file within StreamingAssets)
     public string keyphrase = "hello world"; // The actual keyphrase our decoder is looking to recognize. Note that this is case-sensitive.
     public KeyCode toggleRecordingKey = KeyCode.Space; // The key used to start recording our microphone.
     public int maxRecordingTime = 20; // Maximum length of the AudioClip recorded for your microphone.
-    [Header("UI")]
-    public Text sampleText; // Text that displays if a keyword was recognized. 
-    public Text micText; // Text that displays the current microphone in use.
+
+    // Events: self-explanatory. 
+    public delegate void SpeechRecognizedHandler(string phrase);
+    public event SpeechRecognizedHandler OnSpeechRecognized;
 
     private IEnumerator Start()
     {
         yield return WaitForMicrophoneInput();
         yield return Decompress();
-        SetupDecoder();
+        // Note: If you wish to use a LANGUAGE MODEL. Instead of looking for a keyword, uncomment SetupDecoderLM(); and comment out SetupDecoderKWS();
+        SetupDecoderKWS();
+        //SetupDecoderLM();
         SetupMicrophone();
-        SetupUI();
     }
 
     private void Update()
@@ -54,14 +54,6 @@ public class SphinxExample : MonoBehaviour
                 mic.EndRecording();
             }
         }
-
-        // If we detect a keyphrase, update our UI to reflect this.
-        if (keyphraseDetected)
-        {
-            sampleText.text = "Keyphrase detected!";
-            StartCoroutine(WaitAndResetText());
-            keyphraseDetected = false;
-        }
     }
 
     // Desc: Pretty self-explanatory, wait until you actually have a microphone plugged in.
@@ -71,13 +63,6 @@ public class SphinxExample : MonoBehaviour
             yield return null;
     }
 
-    // Desc: Setup our UI. (Normally you would do this outside of this script, but for the example it should be ok)
-    private void SetupUI()
-    {
-        micText.text = Microphone.devices[0];
-        sampleText.text = $"Say - {keyphrase}";
-    }
-
     // Desc: Create a new MicrophoneHandler and setup our RecordingFinished event.
     private void SetupMicrophone()
     {
@@ -85,13 +70,13 @@ public class SphinxExample : MonoBehaviour
         mic.RecordingFinished += ProcessAudio;
     }
 
-    // Desc: Creates a new decoder for speech processing.
-    private void SetupDecoder()
+    // Desc: Creates a new decoder looking for specific keyphrases. 
+    private void SetupDecoderKWS()
     {
         Debug.Log("<color=red>Initializing decoder...</color>");
         // Create a new configuration for our decoder.
         Config c = Decoder.DefaultConfig();
-        // Find our decompressed language model.
+        // Find our decompressed acoustic model.
         string speechDataPath = Path.Combine(Application.persistentDataPath, lang);
         // Find our decompressed dictionary. Note: You may need to change the dictionary name if you create a custom dictionary.
         string dictPath = Path.Combine(speechDataPath, "dictionary");
@@ -124,6 +109,48 @@ public class SphinxExample : MonoBehaviour
         Debug.Log("<color=green><b>Decoder initialized!</b></color>");
     }
 
+    // Desc: Creates a new decoder looking for any words. Instead of looking for a specific keyword, attempts to interpret what you say and turn it into text.
+    private void SetupDecoderLM()
+    {
+        Debug.Log("<color=red>Initializing decoder...</color>");
+        // Create a new configuration for our decoder.
+        Config c = Decoder.DefaultConfig();
+        // Find our decompressed acoustic model.
+        string speechDataPath = Path.Combine(Application.persistentDataPath, lang);
+        // Find our decompressed dictionary. Note: You may need to change the dictionary name if you create a custom dictionary.
+        string dictPath = Path.Combine(speechDataPath, "dictionary");
+        // Find our decompressed language model.
+        string lmPath = Path.Combine(speechDataPath, "en-us.lm.bin");
+        // Creates a path to store log files.
+        string logPath = Path.Combine(Application.persistentDataPath, "ps.log");
+        // Tell our decoder what language model we wish to use.
+        c.SetString("-hmm", speechDataPath);
+        // Tell our decoder what dictionary to use.
+        c.SetString("-dict", dictPath);
+
+        /* How accurate our decoder will be. For shorter keyphrases you can use smaller thresholds like 1e-1, 
+        * for longer keyphrases the threshold must be bigger, up to 1e-50. 
+        * If your keyphrase is very long – larger than 10 syllables – it is recommended to split it 
+        * and spot for parts separately. 
+        */
+        c.SetFloat("-kws_threshold", 1e-15);
+
+        // These two lines enable and save raw data to a log for debugging. Feel free to comment these lines if you have no need for logs.
+        c.SetString("-logfn", logPath);
+        c.SetString("-rawlogdir", Application.persistentDataPath);
+
+        // Create a new decoder with our configuration.
+        d = new Decoder(c);
+        // Tell our decoder where our language model is located.
+        d.SetLmFile("lm", lmPath);
+        // Tell our decoder to use the language model to search instead of looking for a keyword.
+        d.SetSearch("lm");
+
+        // Starts the decoder.
+        d.StartUtt();
+        Debug.Log("<color=green><b>Decoder initialized!</b></color>");
+    }
+
     // Desc: This is the "secret-sauce" of PocketSphinx. This method actually provides Sphinx with data and checks to see if we detect a keyphrase.
     private void ProcessAudio(AudioClip audio)
     {
@@ -140,7 +167,9 @@ public class SphinxExample : MonoBehaviour
         // Checks if we recognize a keyphrase.
         if (d.Hyp() != null)
         {
-            keyphraseDetected = true;
+            // Fire our event.
+            if (OnSpeechRecognized != null)
+                OnSpeechRecognized.Invoke(d.Hyp().Hypstr);
             // Stop the decoder.
             d.EndUtt();
             // Start the decoder again.
@@ -208,12 +237,5 @@ public class SphinxExample : MonoBehaviour
             byteData[2 * i + 1] = (byte)(val >> 8);
         }
         return byteData;
-    }
-
-    // Resets our text to reflect the keyphrase we need to speak.
-    private IEnumerator WaitAndResetText()
-    {
-        yield return new WaitForSeconds(2);
-        sampleText.text = $"Say - {keyphrase}";
     }
 }

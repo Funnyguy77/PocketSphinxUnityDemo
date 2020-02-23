@@ -524,6 +524,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2109755260}
   - component: {fileID: 2109755261}
+  - component: {fileID: 2109755262}
   m_Layer: 0
   m_Name: _Example
   m_TagString: Untagged
@@ -560,5 +561,18 @@ MonoBehaviour:
   lang: en-us
   keyphrase: this is a test
   toggleRecordingKey: 32
-  sampleText: {fileID: 1022065716}
-  micText: {fileID: 236422906}
+  maxRecordingTime: 20
+--- !u!114 &2109755262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2109755259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36c20fc22a8771747a90e1d4cc9ce8ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mic: {fileID: 236422906}
+  phrase: {fileID: 1022065716}
