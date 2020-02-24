@@ -21,6 +21,7 @@ Simply download or clone this project and open it in your version of Unity. (Tes
 
 ## TODO:
 - ~~Add an example showing how to use a custom language model.~~
+- Add an example showing how to handle multiple keywords with KWS.
 - (?) Add video example showing in-game use.
 
 ## Other great resources:
