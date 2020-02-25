@@ -16,8 +16,10 @@ When I stumbled across [CMUSphinx](https://cmusphinx.github.io/) and [PocketSphi
 - Android
 - iOS
 
-## Installation
-Simply download or clone this project and open it in your version of Unity. (Tested in Unity 2018.4.13f1 LTS)
+## Installation (Tested in Unity 2018.4.13f1 LTS)
+Simply clone this project and open it in your version of Unity. This Project uses Git Large Files Support (LFS). Downloading a zip file using the green button on Github **does not work**. You must clone the Project with a version of git that has LFS. 
+
+You can download Git LFS here: https://git-lfs.github.com/.
 
 ## TODO:
 - ~~Add an example showing how to use a custom language model.~~
