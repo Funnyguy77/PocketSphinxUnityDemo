@@ -90,6 +90,17 @@ public class SphinxExample : MonoBehaviour
         // Tell our decoder what phrase to look for.
         c.SetString("-keyphrase", keyphrase);
 
+        /* IF YOU WISH TO SPOT FOR MULTIPLE KEYWORDS / PHRASES, 
+         * USE THE FOLLOWING CODE INSTEAD OF 'c.SetString("-keyphrase", keyphrase);' 
+         *
+         * The following code references a txt file instead of a reference to a string. 
+         * It's important to note that your phrases are separated line-by-line.
+         * 
+         * Note: Example txt file is stored at (Assets/StreamingAssets/keywords.txt)
+         */
+        //string keyphrasePath = Path.Combine(Application.streamingAssetsPath, "keywords.txt");
+        //c.SetString("-kws", keyphrasePath);
+
         /* How accurate our decoder will be. For shorter keyphrases you can use smaller thresholds like 1e-1, 
          * for longer keyphrases the threshold must be bigger, up to 1e-50. 
          * If your keyphrase is very long – larger than 10 syllables – it is recommended to split it 
