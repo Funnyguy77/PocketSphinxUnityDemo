@@ -23,7 +23,7 @@ You can download Git LFS here: https://git-lfs.github.com/.
 
 ## TODO:
 - ~~Add an example showing how to use a custom language model.~~
-- Add an example showing how to handle multiple keywords with KWS.
+- ~~Add an example showing how to handle multiple keywords with KWS.~~
 - (?) Add video example showing in-game use.
 
 ## Other great resources:
