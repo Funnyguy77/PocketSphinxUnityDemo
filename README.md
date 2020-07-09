@@ -32,6 +32,3 @@ You can download Git LFS here: https://git-lfs.github.com/.
 
 ## Thanks!
 Thanks for checking out my PocketSphinx Unity Demo, if you have any questions open a GitHub issue. :)
-
-## Want to support me? <img src="https://cdn.buymeacoffee.com/buttons/bmc-new-btn-logo.svg" alt="Buy me a coffee"><span style="margin-left:15px;font-size:28px !important;">
-[Buy me a coffee!](https://www.buymeacoffee.com/Funnyguy77)
